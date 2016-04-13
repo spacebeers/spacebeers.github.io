@@ -8,8 +8,6 @@ layout: default
   <ul class="post-list">
     {% for component in site.components %}
       <li>
-        <span class="post-meta">{{ component.date | date: "%b %-d, %Y" }}</span>
-
         <h2>
           <a class="post-link" href="{{ component.url | prepend: site.baseurl }}">{{ component.title }}</a>
         </h2>
