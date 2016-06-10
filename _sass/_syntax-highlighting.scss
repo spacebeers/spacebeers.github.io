@@ -1,6 +1,13 @@
 /**
  * Syntax highlighting styles
  */
+
+.component__code {
+  pre {
+    white-space: pre-line;
+  }
+}
+
 .highlight {
     background: #fff;
     @extend %vertical-rhythm;

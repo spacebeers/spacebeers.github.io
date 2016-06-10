@@ -1,41 +1,324 @@
 ---
-title: "Itineray"
+title: "Itinerary"
 type: component
 layout: component
-scss: _assets/stylesheets/_buttons.scss
-usage: "The overall itinerary component"
+usage: "The itinary component is used to show a timeline of a customers booking, including which components make up which stage of their journey."
 ---
 
 <section class="itinerary">
-    <heading>Main header</heading>
-    
-    <article class="itinerary-item">
-        <header>Item header</header>           
-        
-        <div class="itinerary-card">
-            <header>Card header</header>
-            <div class="content">
-                Content
+   <header>My full itinerary</header>
+   <article class="itinerary-item timeline ng-scope start" ng-repeat="(key, value) in booking.timeline" ng-class="{'start': $first, 'end': $last}">
+      <header class="ng-binding">Friday 07 Oct</header>
+
+      <itinerary-iterator passengers="booking.passengers" component="component" booking-type="booking.travelType" ng-repeat="component in value" class="ng-scope ng-isolate-scope">
+         <article class="itinerary-card timeline ng-isolate-scope" xmlns="http://www.w3.org/1999/html" flight="component" passengers="passengers" booking-type="bookingType">
+            <header>
+               <svg class="icon plane outbound" role="presentation">
+                  <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/svg.svg#plane-icon"></use>
+               </svg>
+               <h3>
+                  Flight Details 
+                  <span ng-hide="vm.bookingType === 'multicentre'" aria-hidden="false" class="">
+                     <small ng-if="vm.flight.legType === 'outbound'" class="ng-scope">OUTBOUND</small>
+                  </span>
+               </h3>
+            </header>
+            <div class="itinerary-card-content">
+               <div ng-repeat="sector in vm.flight.sectors" class="ng-scope">
+                  <div class="flight-sector ng-isolate-scope" passengers="vm.flight.partyComposition" sector="sector" airline="vm.flight.airlineLocator">
+                     <div class="flight-header">
+                        <div class="row">
+                           <div class="col-xs-14">
+                              <p class="info-item ng-binding"><span class="info-title">Flight number</span> BA169</p>
+                           </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-sm-7 flight-divider">
+                              <div class="row">
+                                 <div class="col-xs-14">
+                                    <p class="info-item ng-binding"><span class="info-title">Airport</span> London Heathrow (LHR)</p>
+                                 </div>
+                                 <div class="col-xs-4">
+                                    <p class="info-item ng-binding"><span class="info-title">Depart</span> 13:50</p>
+                                 </div>
+                                 <div class="col-xs-4 ng-scope" ng-if="vm.sector.departsFrom.terminal">
+                                    <p class="info-item ng-binding"><span class="info-title">Terminal</span> 5</p>
+                                 </div>
+                                 <svg class="icon chevron divider hidden-xs" role="presentation">
+                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/svg.svg#link-chevron"></use>
+                                 </svg>
+                                 <svg class="icon plane outbound divider visible-xs" role="presentation">
+                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/svg.svg#details-arrow-icon"></use>
+                                 </svg>
+                              </div>
+                           </div>
+                           <div class="col-sm-7">
+                              <div class="row">
+                                 <div class="col-xs-14">
+                                    <p class="info-item ng-binding"><span class="info-title">Airport</span> Shanghai Pu Dong Apt (PVG)</p>
+                                 </div>
+                                 <div class="col-xs-4">
+                                    <p class="info-item ng-binding"><span class="info-title">Arrive</span> 07:55</p>
+                                 </div>
+                                 <div class="col-xs-4 ng-scope" ng-if="vm.sector.arrivesAt.terminal">
+                                    <p class="info-item ng-binding"><span class="info-title">Terminal</span> 2</p>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="flight-content">
+                        <div class="row">
+                           <div class="col-sm-7">
+                              <p class="info-item ng-binding"><span class="info-title"><img class="carrier" src="assets/images/operators/other.png"> Flight carrier </span>British Airways</p>
+                              <p class="info-item ng-binding"><span class="info-title">Cabin class</span> Economy</p>
+                           </div>
+                           <div class="col-sm-7">
+                              <p class="info-item ng-binding">
+                                 <span class="info-title">Passengers</span> 2
+                                 <ng-pluralize count="vm.passengers.adults" when="{'1': ' passenger', 'other': ' passengers'}"> passengers</ng-pluralize>
+                              </p>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="flight-footer">
+                        <div class="row">
+                           <div class="col-sm-7">
+                              <p class="info-item">
+                                 <span class="info-title">Your airline booking reference</span> <span class="booking-reference ng-binding">YJGQUJ</span> 
+                                 <span uib-popover-html="vm.bookingReferenceDesc" popover-trigger="click" popover-placement="top-right" class="help">
+                                    <svg class="icon" role="img">
+                                       <title>Help link</title>
+                                       <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/svg.svg#tool-tip-questionmark-icon"></use>
+                                    </svg>
+                                 </span>
+                              </p>
+                              
+                              <div ng-if="vm.airlineDesignators.code !== 'VS'" class="ng-scope">
+                                 <p class="ng-binding"><img class="carrier" src="assets/images/operators/BA.jpg" alt="British Airways logo"> Visit the British Airways website to manage your seat reservation.</p>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
             </div>
-        </div>
-    </article>   
-        
-    <heading>Main header</heading>
-    
-    <article class="itinerary-item">
-        <header>Item header</header>           
-        
-        <div class="itinerary-card">
-            <header>Card header</header>
-            <div class="content">
-                Content
+         </article>
+      </itinerary-iterator>
+   </article>
+
+   <article class="itinerary-item timeline ng-scope" ng-repeat="(key, value) in booking.timeline" ng-class="{'start': $first, 'end': $last}">
+      <header class="ng-binding">Saturday 08 Oct</header>
+      <itinerary-iterator passengers="booking.passengers" component="component" booking-type="booking.travelType" ng-repeat="component in value" class="ng-scope ng-isolate-scope">
+         <article class="itinerary-card timeline transfer ng-isolate-scope" tour="component" passengers="passengers" booking-type="bookingType">
+            <header>
+               <svg class="icon plane outbound" role="presentation">
+                  <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/svg.svg#compass-icon"></use>
+               </svg>
+               <h3>Tour</h3>
+            </header>
+            <div class="itinerary-card-content">
+               <div class="row">
+                  <div class="col-sm-7">
+                     <p class="info-item ng-binding"><span class="info-title">Tour name</span> Splendours of China</p>
+                     <p class="info-item ng-binding"><span class="info-title">Duration</span> 11 nights</p>
+                  </div>
+                  <div class="col-sm-7">
+                     <p class="info-item ng-binding"><span class="info-title">Travellers</span> 2</p>
+                  </div>
+               </div>
             </div>
-        </div>
-        <div class="itinerary-card">
-            <header>Card header</header>
-            <div class="content">
-                Content
+         </article>
+      </itinerary-iterator>
+   </article>
+   <article class="itinerary-item timeline ng-scope end" ng-repeat="(key, value) in booking.timeline" ng-class="{'start': $first, 'end': $last}">
+      <header class="ng-binding">Thursday 20 Oct</header>
+      <itinerary-iterator passengers="booking.passengers" component="component" booking-type="booking.travelType" ng-repeat="component in value" class="ng-scope ng-isolate-scope">
+         <article class="itinerary-card timeline ng-isolate-scope" xmlns="http://www.w3.org/1999/html" flight="component" passengers="passengers" booking-type="bookingType">
+            <header>
+               <svg class="icon plane outbound" role="presentation">
+                  <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/svg.svg#plane-icon"></use>
+               </svg>
+               <h3>
+                  Flight Details 
+                  <span ng-hide="vm.bookingType === 'multicentre'" aria-hidden="false" class="">
+                     <small ng-if="vm.flight.legType === 'outbound'" class="ng-scope">OUTBOUND</small>
+                  </span>
+               </h3>
+            </header>
+            <div class="itinerary-card-content">
+               <div ng-repeat="sector in vm.flight.sectors" class="ng-scope">
+                  <div class="flight-sector ng-isolate-scope" passengers="vm.flight.partyComposition" sector="sector" airline="vm.flight.airlineLocator">
+                     <div class="flight-header">
+                        <div class="row">
+                           <div class="col-xs-14">
+                              <p class="info-item ng-binding"><span class="info-title">Flight number</span> KA703</p>
+                           </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-sm-7 flight-divider">
+                              <div class="row">
+                                 <div class="col-xs-14">
+                                    <p class="info-item ng-binding"><span class="info-title">Airport</span> Guilin Airport (KWL)</p>
+                                 </div>
+                                 <div class="col-xs-4">
+                                    <p class="info-item ng-binding"><span class="info-title">Depart</span> 16:30</p>
+                                 </div>
+                                 <svg class="icon chevron divider hidden-xs" role="presentation">
+                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/svg.svg#link-chevron"></use>
+                                 </svg>
+                                 <svg class="icon plane outbound divider visible-xs" role="presentation">
+                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/svg.svg#details-arrow-icon"></use>
+                                 </svg>
+                              </div>
+                           </div>
+                           <div class="col-sm-7">
+                              <div class="row">
+                                 <div class="col-xs-14">
+                                    <p class="info-item ng-binding"><span class="info-title">Airport</span> Hong Kong International Apt (HKG)</p>
+                                 </div>
+                                 <div class="col-xs-4">
+                                    <p class="info-item ng-binding"><span class="info-title">Arrive</span> 17:55</p>
+                                 </div>
+                                 <div class="col-xs-4 ng-scope" ng-if="vm.sector.arrivesAt.terminal">
+                                    <p class="info-item ng-binding"><span class="info-title">Terminal</span> 1</p>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="flight-content">
+                        <div class="row">
+                           <div class="col-sm-7">
+                              <p class="info-item ng-binding"><span class="info-title"><img class="carrier" src="assets/images/operators/other.png"> Flight carrier </span>Dragon Air</p>
+                              <p class="info-item ng-binding"><span class="info-title">Cabin class</span> Economy</p>
+                           </div>
+                           <div class="col-sm-7">
+                              <p class="info-item ng-binding">
+                                 <span class="info-title">Passengers</span> 2
+                                 <ng-pluralize count="vm.passengers.adults" when="{'1': ' passenger', 'other': ' passengers'}"> passengers</ng-pluralize>
+                              </p>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="flight-footer">
+                        <div class="row">
+                           <div class="col-sm-7">
+                              <p class="info-item">
+                                 <span class="info-title">Your airline booking reference</span> <span class="booking-reference ng-binding">YJGQUJ</span> 
+                                 <span uib-popover-html="vm.bookingReferenceDesc" popover-trigger="click" popover-placement="top-right" class="help">
+                                    <svg class="icon" role="img">
+                                       <title>Help link</title>
+                                       <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/svg.svg#tool-tip-questionmark-icon"></use>
+                                    </svg>
+                                 </span>
+                              </p>
+
+                              <div ng-if="vm.airlineDesignators.code !== 'VS'" class="ng-scope">
+                                 <p class="ng-binding"><img class="carrier" src="assets/images/operators/KA.jpg" alt="Dragon Air logo"> Visit the Dragon Air website to manage your seat reservation.</p>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
             </div>
-        </div>
-    </article>      
+         </article>
+      </itinerary-iterator>
+
+      <itinerary-iterator passengers="booking.passengers" component="component" booking-type="booking.travelType" ng-repeat="component in value" class="ng-scope ng-isolate-scope">
+         <article class="itinerary-card timeline ng-isolate-scope" xmlns="http://www.w3.org/1999/html" flight="component" passengers="passengers" booking-type="bookingType">
+            <header>
+               <svg class="icon plane outbound" role="presentation">
+                  <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/svg.svg#plane-icon"></use>
+               </svg>
+               <h3>
+                  Flight Details 
+                  <span ng-hide="vm.bookingType === 'multicentre'" aria-hidden="false" class="">
+                     <small ng-if="vm.flight.legType != 'outbound'" class="ng-scope">INBOUND</small>
+                  </span>
+               </h3>
+            </header>
+            <div class="itinerary-card-content">
+               <div ng-repeat="sector in vm.flight.sectors" class="ng-scope">
+                  <div class="flight-sector ng-isolate-scope" passengers="vm.flight.partyComposition" sector="sector" airline="vm.flight.airlineLocator">
+                     <div class="flight-header">
+                        <div class="row">
+                           <div class="col-xs-14">
+                              <p class="info-item ng-binding"><span class="info-title">Flight number</span> BA28</p>
+                           </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-sm-7 flight-divider">
+                              <div class="row">
+                                 <div class="col-xs-14">
+                                    <p class="info-item ng-binding"><span class="info-title">Airport</span> Hong Kong International Apt (HKG)</p>
+                                 </div>
+                                 <div class="col-xs-4">
+                                    <p class="info-item ng-binding"><span class="info-title">Depart</span> 23:45</p>
+                                 </div>
+                                 <div class="col-xs-4 ng-scope" ng-if="vm.sector.departsFrom.terminal">
+                                    <p class="info-item ng-binding"><span class="info-title">Terminal</span> 1</p>
+                                 </div>
+                                 <svg class="icon chevron divider hidden-xs" role="presentation">
+                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/svg.svg#link-chevron"></use>
+                                 </svg>
+                                 <svg class="icon plane outbound divider visible-xs" role="presentation">
+                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/svg.svg#details-arrow-icon"></use>
+                                 </svg>
+                              </div>
+                           </div>
+                           <div class="col-sm-7">
+                              <div class="row">
+                                 <div class="col-xs-14">
+                                    <p class="info-item ng-binding"><span class="info-title">Airport</span> London Heathrow (LHR)</p>
+                                 </div>
+                                 <div class="col-xs-4">
+                                    <p class="info-item ng-binding"><span class="info-title">Arrive</span> 05:35</p>
+                                 </div>
+                                 <div class="col-xs-4 ng-scope" ng-if="vm.sector.arrivesAt.terminal">
+                                    <p class="info-item ng-binding"><span class="info-title">Terminal</span> 5</p>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="flight-content">
+                        <div class="row">
+                           <div class="col-sm-7">
+                              <p class="info-item ng-binding"><span class="info-title"><img class="carrier" src="assets/images/operators/other.png"> Flight carrier </span>British Airways</p>
+                              <p class="info-item ng-binding"><span class="info-title">Cabin class</span> Economy</p>
+                           </div>
+                           <div class="col-sm-7">
+                              <p class="info-item ng-binding">
+                                 <span class="info-title">Passengers</span> 2
+                                 <ng-pluralize count="vm.passengers.adults" when="{'1': ' passenger', 'other': ' passengers'}"> passengers</ng-pluralize>
+                              </p>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="flight-footer">
+                        <div class="row">
+                           <div class="col-sm-7">
+                              <p class="info-item">
+                                 <span class="info-title">Your airline booking reference</span> <span class="booking-reference ng-binding">YJGQUJ</span> 
+                                 <span uib-popover-html="vm.bookingReferenceDesc" popover-trigger="click" popover-placement="top-right" class="help">
+                                    <svg class="icon" role="img">
+                                       <title>Help link</title>
+                                       <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/svg.svg#tool-tip-questionmark-icon"></use>
+                                    </svg>
+                                 </span>
+                              </p>
+                              <div ng-if="vm.airlineDesignators.code !== 'VS'" class="ng-scope">
+                                 <p class="ng-binding"><img class="carrier" src="assets/images/operators/BA.jpg" alt="British Airways logo"> Visit the British Airways website to manage your seat reservation.</p>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </article>
+      </itinerary-iterator>
+   </article>
 </section>
